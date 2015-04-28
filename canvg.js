@@ -2261,8 +2261,14 @@
 			this.captureTextNodes = true;
 			this.base = svg.Element.TextElementBase;
 			this.base(node);
-
-			this.text = svg.compressSpaces(node.value || node.text || node.textContent || '');
+			// Fix the text content show twice, such ans RaphaelJS's text() method
+			// 2015-04-28; renfufei@qq.com
+			if ( node.nodeName == "tspan") {
+				this.text = '' ;
+			} else {
+				this.text = node.value || node.text || node.textContent || '';
+			}
+			//this.text = svg.compressSpaces(node.value || node.text || node.textContent || '');
 			this.getText = function() {
 				// if this node has children, then they own the text
 				if (this.children.length > 0) { return ''; }
